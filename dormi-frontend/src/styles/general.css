@@ -1,0 +1,677 @@
+@import url('https://fonts.googleapis.com/css2?family=Acme&family=Gayathri&family=Gothic+A1&family=Inter&family=Radio+Canada:wght@300&display=swap');
+
+#first-main
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    min-height: 100vh;
+    width:100%;
+   
+}
+#logo-container
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 2em;
+    margin-top: 3em;
+}
+#logo-container>div
+{
+   
+    font-size: 2.3em;
+}
+#logo-name
+{
+    font-family: 'Acme';
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#logo-container>img{
+    width: 4em;
+    height: 4em;
+   
+}
+#first-main>div>h1{
+    font-family: 'Gayathri';
+    font-size: 2.5em;
+    text-align: center;
+}
+
+#first-main>div>p{
+    font-family: 'Gothic A1';
+    font-size: 1.2em;
+    margin-bottom: 3em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+
+}
+.white-button
+{
+    background: rgba(229, 244, 243, 0.58);
+    border: 1px solid #847E7E;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-left: 1.5em;
+    font-size: 1em;
+    width: 130px;
+    height: 50px;
+   
+}
+/* .white-button:disabled
+{
+    color: #000;
+} */
+#registration-form>.button-container>a>.white-button
+{
+    font-size: 0.6em;
+}
+#registration-form>.button-container>.white-button
+{
+    font-size: 0.6em;
+}
+#registration-form>.button-container
+{
+        width: 100%;
+}
+.button-container
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: flex-end;
+    margin-bottom: 3em;
+}
+
+/*navigation*/
+#nav-logo-container
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+   
+}
+
+#nav-logo-container>img{
+    width: 2.8em;
+    height: 2.8em;
+}
+#nav-logo-container>div{
+font-size: 1.8em;
+}
+#main-nav
+{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items:center;
+    background: #F8F2DB;
+    width: 100%;
+    height: 10vh;
+    position:fixed;
+    padding: 1em;
+    top: 0;
+    z-index: 1;
+   
+}
+#main-nav>ul>a>li{
+    font-family: 'Radio Canada';
+    display: inline;
+    list-style-type: none;
+    margin-right: 1.5em;
+    font-size: 1.4em;
+    color: black;
+    font-weight: 600;
+
+
+}
+#main-nav>ul>a>li:hover{
+    text-decoration: underline;
+    text-decoration-color: rgb(94, 87, 87);
+    text-decoration-thickness: 2px;
+}
+a{
+    text-decoration: none;
+
+}
+#profile-img
+{
+    width: 2em;
+    height: 2em;
+}
+
+.dropdown {
+    position: relative;
+    text-align: center;
+
+}
+.dropdown-menu {
+    /*border: 1.5px solid black;*/
+    border-color: black;
+    opacity: 80%;
+    position: absolute;
+    left:0;
+    background: whitesmoke;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    transition: opacity 150ms ease-in-out;
+    margin-top: 10px;
+    width: 5em;
+    height: 5em;
+    padding: 0.5em;
+    /* padding: 1em; */
+    /* list-style-type: none; */
+    /* flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+
+}
+.dropdown-menu>a>button
+{
+    width: 100%;
+    border:none;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #847E7E;
+    background: none;
+    
+}
+/*reservation*/
+.reservation-main
+{
+    display: flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items: center;
+    width: 100%;
+   margin-top: 10vh;
+    
+}
+#reservation-container
+{
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    font-family: 'Inter';
+    width:60%;
+    margin-bottom: 7em;
+}
+h2 {
+    width: 100%; 
+    text-align: center; 
+    border-bottom: 1px solid #000; 
+    line-height: 0.1em;
+    font-weight: normal;
+    margin: 10px 0 20px; 
+    font-size: 3em;
+
+ } 
+ 
+ h2 span { 
+     padding:0 10px;
+      font-style: normal;
+      font-weight: 300;
+    }
+ 
+#reservation-container>h2 span
+{
+    background: #F8F2DB;
+}
+#reservation-container>h2
+{
+    margin-top: 3em;
+}
+#devices-container
+{
+    margin-top: 5em;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 2em;
+    grid-row-gap: 2em;
+    text-align: center;
+    font-size: 28px;
+    
+}
+.device-button-container
+{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+}
+.device-button-container>a>button
+{
+    margin-top: 7em;
+    aspect-ratio : 1 / 1;
+    width: 85%;
+    background: rgba(254, 254, 254, 0.49);
+    border: 1px solid #847E7E;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+    min-height: 15em;
+}
+.device-button-container>a>button>img
+{
+    height: 80%;
+    width: 80%;
+    opacity: 80%;
+}
+#vac:hover
+{
+    background: rgba(214, 100, 103, 0.751);
+}
+#washer:hover
+{
+    background:rgba(143, 100, 212, 0.438);
+}
+#iron:hover
+{
+    background:rgba(98, 185, 197, 0.438)
+}
+/* registration*/
+#registration-form
+{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+    font-family: 'Radio Canada';
+    font-style: normal;
+    font-weight: 900;
+    font-size: 2em;
+    margin-top: 1.5em;
+    width: 40%;
+}
+#moving-container>#registration-form
+{
+    margin-top: 2.5em;
+    width: 60%;
+}
+/* #registration-form>input{
+   
+    width: 100%;
+    height: 75px;
+    background: rgba(231, 223, 192, 0.67);
+    margin-bottom: 2em;
+    border: 0px solid;
+} */
+.good-input
+{
+    width: 100%;
+    height: 75px;
+    background: rgba(231, 223, 192, 0.67);
+    margin-bottom: 2em;
+    border: 0px solid; 
+}
+.wrong-input
+{
+    width: 100%;
+    height: 75px;
+    background: rgba(231, 223, 192, 0.67);
+    margin-bottom: 2em;
+    border: 2px solid #860707;
+}
+label
+{
+    text-align: left;
+    width: 100%;
+    margin-bottom: 1.2em;
+}
+#registration-form>.button-container
+{
+    margin-top: 2.5em;
+
+}
+/*problems*/
+#plan-container, #moving-container
+{
+    background: rgba(242, 234, 205, 0.6);
+    margin-top: 3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#plan-container
+{
+    width:90%;
+    margin-bottom: 2em;
+
+}
+#moving-container
+{
+    height:100%;
+    width:60%;
+    justify-content:flex-start;
+    
+}
+#moving-container>h2 span
+{
+    background:rgba(242, 234, 205, 1);
+}
+#moving-container>h2
+{
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+.problem
+{
+    background: rgba(231, 223, 192, 0.67);
+    border-radius: 20px;
+
+    width: 70%;
+    margin-top: 2.5em;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    gap: 10px;
+    grid-auto-rows: 100px;
+    grid-template-areas:
+      "a  b ";
+    align-items: center;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.5em;
+    line-height: 36px;
+    text-align: center;
+    padding: 0.3em;
+    padding-left: 0.5em;
+}
+
+.problem>img{
+    height:80%;
+    width:30%;
+    aspect-ratio : 1 / 1;
+    grid-area: b;
+    justify-self: center;
+    opacity: 80%;
+}
+.text-container
+{  grid-area: a;
+    word-wrap: break-word;
+    max-height: 100%;
+   
+}
+
+
+.problem::-webkit-scrollbar
+ {
+    width: 0.4em;
+}
+#all-messages::-webkit-scrollbar
+{
+    width: 1em;
+}
+
+.problem::-webkit-scrollbar-corner,
+.problem::-webkit-scrollbar-track{
+    background: rgba(114, 86, 53, 0.37);
+}
+
+.problem::-webkit-scrollbar-thumb
+{
+    background: #b3a689;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+#all-messages::-webkit-scrollbar-thumb {
+    background: #cec0a461;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+/* #d1c4aacb; */
+.problem::-webkit-scrollbar-thumb:hover {
+    background-color:  #89847A;
+}
+#all-messages::-webkit-scrollbar-thumb:hover {
+    background-color:  #c8bba1cb;
+}
+.problem::-webkit-scrollbar-thumb:active {
+    background-color: #89847A;
+}
+#all-messages::-webkit-scrollbar-thumb:active {
+    background-color:  #c8bba1cb;
+}
+
+
+/* Buttons */
+.problem::-webkit-scrollbar-button:single-button {
+    background: rgba(114, 86, 53, 0.37);
+    /* border-radius: 10px; */
+    display: block;
+    background-size: 10px;
+    background-repeat: no-repeat;
+}
+#all-messages::-webkit-scrollbar-button:single-button {
+    display: block;
+    background-size: 10px;
+    background-repeat: no-repeat;
+}
+.problem::-webkit-scrollbar-button:single-button:hover{
+    background-color:  #89847A;  
+}
+
+/* Up */
+.problem::-webkit-scrollbar-button:single-button:vertical:decrement
+ {
+    height: 12px;
+    width: 16px;
+    border-top-right-radius: 15px;
+    background-position: center 4px;
+    background-image: url("../assets/up.svg");
+}
+#all-messages::-webkit-scrollbar-button:single-button:vertical:decrement
+ {
+    height: 12px;
+    width: 16px;
+    background-position: center 4px;
+    background-image: url("../assets/up.svg");
+}
+
+.problem::-webkit-scrollbar-button:single-button:vertical:decrement:hover,
+#all-messages::-webkit-scrollbar-button:single-button:vertical:decrement:hover {
+    background-image: url("../assets/up.svg");
+}
+
+.problem::-webkit-scrollbar-button:single-button:vertical:decrement:active,
+#all-messages::-webkit-scrollbar-button:single-button:vertical:decrement:active {
+    background-image: url("../assets/up.svg");
+}
+
+/* Down */
+.problem::-webkit-scrollbar-button:single-button:vertical:increment
+{
+    height: 12px;
+    width: 16px;
+    border-bottom-right-radius:15px ;
+    background-position: center 2px;
+    background-image: url("../assets/down.svg");
+}
+#all-messages::-webkit-scrollbar-button:single-button:vertical:increment {
+    height: 12px;
+    width: 16px;
+    background-position: center 2px;
+    background-image: url("../assets/down.svg");
+}
+
+.problem::-webkit-scrollbar-button:single-button:vertical:increment:hover,
+#all-messages::-webkit-scrollbar-button:single-button:vertical:increment:hover {
+    background-image: url("../assets/down.svg");
+}
+
+.problem::-webkit-scrollbar-button:single-button:vertical:increment:active,
+#all-messages::-webkit-scrollbar-button:single-button:vertical:increment:active {
+    background-image: url("../assets/down.svg");
+}
+
+/*informations*/
+#all-messages
+{
+    width:100%;
+    display: flex; 
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    max-height: 80vh;;
+    overflow-y: scroll;
+    margin-top: 2em;
+    padding-bottom: 1.5em;
+}
+.message, .user-message, .input-container
+{
+    margin-top: 3em;
+    width:80%;
+    height:4em;   
+    border-radius: 20px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    color: #262525;
+    font-size:1.4em;
+}
+.user-message>p
+{
+    font-size:2em;
+    font-size: 100%;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+.user-message
+{
+    background: rgba(129, 84, 186, 0.3);
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    height:6em;
+   
+
+}
+.message
+{   margin-top: 3em;
+    width:80%;
+    background: rgba(231, 223, 192, 0.6);
+    display: grid; 
+    grid-template-columns: 30%, 70%; 
+    grid-template-rows: 50% 50%; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+    "img name"
+    "img message"; 
+    justify-content: left;
+    align-content: center;
+  padding: 0.2em;
+          
+}
+.message>img{
+    clip-path: circle();
+    max-height: 70%;
+    grid-area: img;
+    align-self: center;
+   
+   
+}
+
+.message>p{
+    grid-area: message;
+    margin:0px;
+    font-size: 100%;
+    
+}
+.message>h1{
+    grid-area: name;
+    letter-spacing: 0.08em;
+    font-weight: 400;
+    margin-top:3px;
+    font-size:0.8em;
+}
+
+.input-container
+{
+    display: flex;
+    /* justify-content: center; */
+    align-items:center;
+    /* width: 55%;
+    padding-top: 2em; */
+    background: rgba(242, 234, 205, 0.6);
+    margin-top: 2em;
+    margin-bottom:1.5em;
+    font-size:1.4em;
+    /* bottom:0;
+    position:fixed; */
+}
+.input-container>input{
+    background: rgba(231, 223, 192, 0.9);
+    border-radius: 17px;
+    height:4em;
+    width:80%;
+    border: none;
+    margin-right: 1.5em;
+    padding-left: 1em;
+    
+}
+input:focus{
+    outline: none;
+}
+#send-button>img
+{
+    height: 80%;
+    opacity:80%;
+    width: 80%;
+}
+#send-button
+{
+    height:8vh;
+    aspect-ratio : 1 / 1;
+    /* background: rgba(223, 213, 172, 0.9); */
+    background:rgba(218, 87, 94, 0.686);
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    clip-path: circle();
+    display: flex;
+    align-items: center;
+
+}
+
+.plan {
+    width:90%;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(48, 2.5em);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+   margin-bottom: 2em;
+}
+
+.plan :nth-child(n+9) {
+    border-right: 1px solid black;
+  }
+#empty { grid-area: 1 / 1 / 2 / 2;}    
+#monday { grid-area: 1 / 2 / 2 / 3; }
+#tuesday { grid-area: 1 / 3 / 2 / 4; }
+#wednesday { grid-area: 1 / 4 / 2 / 5; }
+#thursday { grid-area: 1 / 5 / 2 / 6; }
+#friday { grid-area: 1 / 6 / 2 / 7; }
+#saturday { grid-area: 1 / 7 / 2 / 8; }
+#sunday { grid-area: 1 / 8 / 2 / 9; }
+.time
+{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 2em;
+}
+
+#plan-nav
+{
+    display: flex;
+    justify-content: space-between;
+    width:80%;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    
+}
+#plan-nav>div>img{
+    margin-left: 1.5em;
+}

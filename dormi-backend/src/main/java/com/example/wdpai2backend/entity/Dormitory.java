@@ -3,7 +3,7 @@ package com.example.wdpai2backend.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="dormitory")
+@Table(name = "dormitory")
 public class Dormitory {
 
     @Id
@@ -21,6 +21,7 @@ public class Dormitory {
         return id_dorm;
     }
 
-
-
+    public String getDorm_name() {
+        return dorm_name;
+    }
 }

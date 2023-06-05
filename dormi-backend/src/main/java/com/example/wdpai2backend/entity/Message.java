@@ -2,6 +2,7 @@ package com.example.wdpai2backend.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -19,10 +20,17 @@ public class Message {
     @JsonIgnore
     private AppUser appUser;
 
-
     private String message;
 
     private LocalDateTime mess_date;
+
+    @Transient
+    @JsonSerialize
+    String owner;
+
+    @Transient
+    @JsonSerialize
+    String numberOfOwner;
 
     public Message() {
     }
@@ -63,5 +71,22 @@ public class Message {
 
     public void setMess_date(LocalDateTime mess_date) {
         this.mess_date = mess_date;
+
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getJson() {
+        return "{\"id_mess\":" + id_mess + ",\"message\":\"" + message + "\",\"owner\":\"" + owner + "\"," + "\"numberOfOwner\":" + numberOfOwner + "}";
+    }
+
+    public String getNumberOfOwner() {
+        return numberOfOwner;
+    }
+
+    public void setNumberOfOwner(String numberOfOwner) {
+        this.numberOfOwner = numberOfOwner;
     }
 }

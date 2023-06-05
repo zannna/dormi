@@ -15,10 +15,10 @@ import java.util.Optional;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
-    @Query("SELECT r.start_date FROM Reservation r WHERE r.device.id_device = ?1 AND r.start_date > ?2")
-    Optional<List<LocalDateTime>> findReservationOfDevice(Long id_device,  LocalDateTime date);
+    @Query(value = "SELECT r FROM Reservation r WHERE r.device.id_device = ?1 AND r.start_date > ?2 AND r.end_date<?3 order by r.start_date")
+    Optional<List<Reservation>> findReservationOfDevice(Long id_device, LocalDateTime date, LocalDateTime endDate);
 
-    @Query(nativeQuery = true, value="DELETE  FROM reservations WHERE id_user=?1 and id_res=?2 returning true")
+    @Query(nativeQuery = true, value = "DELETE  FROM reservations WHERE id_user=?1 and id_res=?2 returning true")
     Optional<Boolean> deleteReservation(Long id_user, Long id_res);
 
     @Query("SELECT r FROM Reservation r WHERE r.appUser.email= ?1")

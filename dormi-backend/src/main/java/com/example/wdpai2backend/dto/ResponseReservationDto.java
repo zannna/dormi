@@ -5,27 +5,37 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class ResponseReservationDto {
-    Integer numberOfDevice;
-    List<LocalDateTime> resevations;
+    LocalDate[][] weeks;
+    List<Integer> devicesNumbers;
+    List<List<List<LocalDateTime[]>>> reservations;
 
-    public ResponseReservationDto(Integer numberOfDevice, List<LocalDateTime> resevations) {
-        this.numberOfDevice = numberOfDevice;
-        this.resevations = resevations;
+    public ResponseReservationDto(LocalDate[][] weeks, List<Integer> numberOfDevice, List<List<List<LocalDateTime[]>>> reservations) {
+        this.weeks = weeks;
+        this.devicesNumbers = numberOfDevice;
+        this.reservations = reservations;
     }
 
-    public Integer getNumberOfDevice() {
-        return numberOfDevice;
+    public LocalDate[][] getWeeks() {
+        return weeks;
     }
 
-    public void setNumberOfDevice(Integer numberOfDevice) {
-        this.numberOfDevice = numberOfDevice;
+    public void setWeeks(LocalDate[][] weeks) {
+        this.weeks = weeks;
     }
 
-    public List<LocalDateTime> getResevations() {
-        return resevations;
+    public List<Integer> getNumberOfDevice() {
+        return devicesNumbers;
     }
 
-    public void setResevations(List<LocalDateTime> resevations) {
-        this.resevations = resevations;
+    public void setNumberOfDevice(List<Integer> numberOfDevice) {
+        this.devicesNumbers = numberOfDevice;
+    }
+
+    public List<List<List<LocalDateTime[]>>> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<List<List<LocalDateTime[]>>> reservations) {
+        this.reservations = reservations;
     }
 }

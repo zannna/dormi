@@ -4,26 +4,27 @@ import com.example.wdpai2backend.dto.ReservationDto;
 import com.example.wdpai2backend.dto.ResponseReservationDto;
 import com.example.wdpai2backend.entity.AppUser;
 import com.example.wdpai2backend.entity.Device;
+import com.example.wdpai2backend.entity.Message;
 import com.example.wdpai2backend.entity.Reservation;
 import com.example.wdpai2backend.repository.DeviceRepository;
 import com.example.wdpai2backend.repository.ReservationRepository;
 import com.example.wdpai2backend.repository.UserRepository;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import org.postgresql.util.PSQLException;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @RestController
+@CrossOrigin
 public class ReservationController {
 
     private final ReservationRepository reservationRepository;
@@ -36,49 +37,107 @@ public class ReservationController {
         this.deviceRepository = deviceRepository;
     }
 
-    @GetMapping("/reservations")
-    public ResponseEntity<Object> getReservations(@RequestBody String device) {
+//    @GetMapping("/reservations")
+//    public ResponseEntity<Object> getReservations(@RequestBody String device) {
+//
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        Gson gson = new Gson();
+//        JsonObject jsonObject = gson.fromJson(device, JsonObject.class);
+//        String dev = jsonObject.get("device").getAsString();
+//        Long id_dorm = userRepository.findIdDormitoryByEmail(auth.getName());
+//        List<Device> devices = deviceRepository.findDevicesOfDormitory(userRepository.findIdDormitoryByEmail(auth.getName()), dev).get();
+//        List<ResponseReservationDto> response = new ArrayList<>();
+//        LocalDateTime date = LocalDateTime.now();
+//        for (Device d : devices) {
+//            if (d.isWork()) {
+//                ResponseReservationDto res = new ResponseReservationDto(d.getNumber(), reservationRepository.findReservationOfDevice(d.getId_device(), date).get());
+//                response.add(res);
+//            }
+//        }
+//        if (response.isEmpty()) return new ResponseEntity<>("Bad request", HttpStatus.BAD_REQUEST);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
+
+    @GetMapping("/reservations/{device}")
+    public ResponseEntity<Object> getReservations(@PathVariable String device) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Gson gson = new Gson();
-        JsonObject jsonObject = gson.fromJson(device, JsonObject.class);
-        String dev = jsonObject.get("device").getAsString();
+        //  JsonObject jsonObject = gson.fromJson(device, JsonObject.class);
+        //  String dev = jsonObject.get("device").getAsString();
         Long id_dorm = userRepository.findIdDormitoryByEmail(auth.getName());
-        List<Device> devices = deviceRepository.findDevicesOfDormitory(userRepository.findIdDormitoryByEmail(auth.getName()), dev).get();
-        List<ResponseReservationDto> response = new ArrayList<>();
-        LocalDateTime date = LocalDateTime.now();
+        List<Device> devices = deviceRepository.findDevicesOfDormitory(userRepository.findIdDormitoryByEmail(auth.getName()), device).get();
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime previousDay = today;
+        while (previousDay.getDayOfWeek() != DayOfWeek.MONDAY) {
+            previousDay = previousDay.minusDays(1);
+        }
+        List<List<List<LocalDateTime[]>>> allReservations = new LinkedList<>();
+        List<Integer> devicesNumbers = new LinkedList<>();
+        LocalDate dates[][] = new LocalDate[4][2];
+        int index = 0;
+        for (int i = 0; i < 22; i = i + 7) {
+            dates[index][0] = previousDay.plusDays(i).toLocalDate();
+            dates[index][1] = previousDay.plusDays(i).plusDays(6).toLocalDate();
+            index++;
+        }
         for (Device d : devices) {
             if (d.isWork()) {
-                ResponseReservationDto res = new ResponseReservationDto(d.getNumber(), reservationRepository.findReservationOfDevice(d.getId_device(), date).get());
-                response.add(res);
+                devicesNumbers.add(d.getNumber());
+                List<Reservation> monthReservations = reservationRepository.findReservationOfDevice(d.getId_device(), previousDay, previousDay.plusDays(30)).get();
+                int i = 0;
+                LocalDateTime newDate = previousDay;
+                List<List<LocalDateTime[]>> formattedReservations = new LinkedList<>();
+                while (i < 4) {
+                    List<LocalDateTime[]> weekReservations = new LinkedList<>();
+                    Iterator<Reservation> iter = monthReservations.iterator();
+                    while (iter.hasNext()) {
+                        Reservation res = iter.next();
+                        LocalDateTime date = res.getStart_date();
+                        LocalDateTime endDate = res.getEnd_date();
+                        if (date.isBefore(newDate.plusDays(6).withHour(23).withMinute(59)) || date.isEqual(newDate.plusDays(6).withHour(23).withMinute(59))) {
+                            weekReservations.add(new LocalDateTime[]{date, endDate});
+                            ;
+                            iter.remove();
+                        } else break;
+                    }
+                    formattedReservations.add(weekReservations);
+                    newDate = newDate.plusDays(7);
+                    i++;
+                }
+
+                allReservations.add(formattedReservations);
             }
+
         }
-        if (response.isEmpty()) return new ResponseEntity<>("Bad request", HttpStatus.BAD_REQUEST);
+        ResponseReservationDto response = new ResponseReservationDto(dates, devicesNumbers, allReservations);
+        // if (response.isEmpty()) return new ResponseEntity<>("Bad request", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/addReservation")
     public ResponseEntity<String> addReservation(@RequestBody ReservationDto reservation) {
+        String startDate = reservation.getStartDate();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        LocalDateTime start = LocalDateTime.parse(startDate, formatter);
+        String endDate = reservation.getEndDate();
+        LocalDateTime end = LocalDateTime.parse(endDate, formatter);
+        if (end.isBefore(start)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AppUser appUser = userRepository.findByEmail(auth.getName()).get();
-        System.out.println(appUser.getDormitory().getId_dorm());
         Device device = deviceRepository.findDeviceByNameAndNumberAndDormitory(reservation.getDevice(), reservation.getNumberOfDevice(), appUser.getDormitory().getId_dorm()).get();
         if (device != null) {
-            String startDate = reservation.getStartDate();
-            LocalDateTime start = LocalDateTime.parse(startDate);
-            String endDate = reservation.getEndDate();
-            LocalDateTime end = LocalDateTime.parse(endDate);
-            Reservation res = new Reservation(appUser, appUser.getDormitory(), device, end, start);
+            Reservation res = new Reservation(appUser, appUser.getDormitory(), device, start, end);
             try {
                 reservationRepository.save(res);
             } catch (Exception ex) {
 
-                return new ResponseEntity<>("Bad request ", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
             }
-            return new ResponseEntity<>("Reservation added", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>("Bad request, device don't exist ", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 
     }
@@ -91,10 +150,8 @@ public class ReservationController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Long id_user = userRepository.findByEmail(auth.getName()).get().getId_user();
         Optional<Boolean> returned = reservationRepository.deleteReservation(id_user, id_res);
-        if (returned.isEmpty())
-            return new ResponseEntity<>("Bad request ", HttpStatus.BAD_REQUEST);
-        else
-            return new ResponseEntity<>("Reservation deleted", HttpStatus.OK);
+        if (returned.isEmpty()) return new ResponseEntity<>("Bad request ", HttpStatus.BAD_REQUEST);
+        else return new ResponseEntity<>("Reservation deleted", HttpStatus.OK);
 
     }
 

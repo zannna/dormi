@@ -10,38 +10,38 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="authority")
+@Table(name = "authority")
 public class Authority implements GrantedAuthority {
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long id_auth;
-   String authority;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id_auth;
+    private String authority;
 
 
-   public Authority() {
-   }
+    public Authority() {
+    }
 
-   public Authority(String authority) {
-      this.authority = authority;
-   }
+    public Authority(String authority) {
+        this.authority = authority;
+    }
 
-   @Override
-   public String getAuthority() {
-      return authority;
-   }
+    @Override
+    public String getAuthority() {
+        return authority;
+    }
 
-   public void setId_auth(Long id) {
-      this.id_auth = id;
-   }
+    public void setId_auth(Long id) {
+        this.id_auth = id;
+    }
 
-   @Id
-   public Long getId_auth() {
-      return id_auth;
-   }
+    @Id
+    public Long getId_auth() {
+        return id_auth;
+    }
 
-   public void setAuthority(String authority) {
-      this.authority = authority;
-   }
+    public void setAuthority(String authority) {
+        this.authority = authority;
+    }
 
 
 }

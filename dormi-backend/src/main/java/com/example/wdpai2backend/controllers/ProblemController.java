@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+
 
 @RestController
 @Service
@@ -34,7 +36,7 @@ public class ProblemController {
     }
 
     @PostMapping("/addProblem")
-    ResponseEntity<String> addProblem(@RequestBody String description) {
+    ResponseEntity<Object> addProblem(@RequestBody String description) {
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(description, JsonObject.class);
         String desc = jsonObject.get("description").getAsString();
@@ -45,7 +47,7 @@ public class ProblemController {
         if (appUser != null) {
             Problem problem = new Problem(desc, 1, appUser, appUser.getDormitory(), LocalDateTime.now());
             problemRepository.save(problem);
-            return ResponseEntity.ok("Problem added");
+            return new ResponseEntity<>(problem.getId_problem(), HttpStatus.OK);
         }
         return new ResponseEntity<>("User unauthorized", HttpStatus.UNAUTHORIZED);
     }
@@ -54,10 +56,10 @@ public class ProblemController {
     ResponseEntity<Object> getUserProblems() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AppUser appUser = userRepository.findByEmail(auth.getName()).get();
-
         if (appUser != null) {
 
             List<Problem> problems = problemRepository.findUserSortedProblems(appUser.getEmail());
+            System.out.println("userProblems");
             return new ResponseEntity<>(problems, HttpStatus.OK);
         }
         return new ResponseEntity<>("User unauthorized", HttpStatus.UNAUTHORIZED);
@@ -70,11 +72,11 @@ public class ProblemController {
         return new ResponseEntity<>(problems, HttpStatus.OK);
 
     }
-    @PutMapping("/changeProblemStatus")
-    ResponseEntity<Object> changeProblemStatus(@RequestBody Problem problem)
-    {
-       if( problemRepository.updateProblemStatus(problem.getId_problem(), problem.getStatus()).isPresent())
-         return new ResponseEntity<>("Status changed", HttpStatus.OK);
+
+    @PutMapping("/status")
+    ResponseEntity<Object> changeProblemStatus(@RequestBody Problem problem) {
+        if (problemRepository.updateProblemStatus(problem.getId_problem(), problem.getStatus()).isPresent())
+            return new ResponseEntity<>("Status changed", HttpStatus.OK);
 
         return new ResponseEntity<>("Status not changed", HttpStatus.BAD_REQUEST);
     }

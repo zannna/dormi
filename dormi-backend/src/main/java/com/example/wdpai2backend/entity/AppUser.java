@@ -1,5 +1,6 @@
 package com.example.wdpai2backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,23 +9,28 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.*;
 
 @Entity
-@Table(name="app_user")
-public class AppUser  implements UserDetails {
+@Table(name = "app_user")
+public class AppUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_user;
     @NonNull
     private String email;
-    private String username;
+    private String firstName;
     private String surname;
     private String university;
-    private String dormitory;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_dorm", nullable = false)
+    @JsonIgnore
+    private Dormitory dormitory;
+
     private Integer room;
     @NonNull
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name="users_authorities", joinColumns = @JoinColumn(name = "id_user"),
+    @JoinTable(name = "users_authorities", joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_auth"))
     private Set<Authority> authorities = new HashSet<>();
 
@@ -32,16 +38,18 @@ public class AppUser  implements UserDetails {
     public AppUser() {
     }
 
-    public AppUser(String email, String password, String username, String surname, String university, String dormitory, Integer room, Set<Authority> authorities) {
+    public AppUser(String email, String password, String username, String surname, String university, Dormitory dormitory, Integer room, Set<Authority> authorities) {
         this.email = email;
         this.password = password;
-        this.username = username;
+        this.firstName = username;
         this.surname = surname;
         this.university = university;
         this.dormitory = dormitory;
         this.room = room;
         this.authorities = authorities;
+
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -54,8 +62,13 @@ public class AppUser  implements UserDetails {
         this.university = university;
     }
 
-    public void setDormitory(String dormitory) {
-        this.dormitory = dormitory;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String name) {
+        this.firstName = name;
     }
 
     public void setRoom(Integer room) {
@@ -105,7 +118,8 @@ public class AppUser  implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true; }
+        return true;
+    }
 
     @NonNull
     public String getSurname() {
@@ -116,9 +130,6 @@ public class AppUser  implements UserDetails {
         return university;
     }
 
-    public String getDormitory() {
-        return dormitory;
-    }
 
     public Integer getRoom() {
         return room;
@@ -128,9 +139,6 @@ public class AppUser  implements UserDetails {
         return id_user;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public void setPassword(@NonNull String password) {
         this.password = password;
@@ -140,4 +148,15 @@ public class AppUser  implements UserDetails {
         this.authorities = authorities;
     }
 
+    public Dormitory getDormitory() {
+        return dormitory;
+    }
+
+    public void setDormitory(Dormitory dorm) {
+        this.dormitory = dorm;
+    }
+
+    public String generateTopic() {
+        return dormitory.getId_dorm() + "dormitory";
+    }
 }
